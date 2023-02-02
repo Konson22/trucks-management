@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.app-wraper{
+    height:100vh;
+    background-color: rgb(243, 243, 243);
+}
+
+h1,h2,h3,h4,h5,h6{
+    color:rgb(80, 79, 79);
+}
+
+p{
+    color:rgb(107, 107, 107);
+}
+img{
+    width:100%;
+    height:100%;
+}
+
+.app-content{
+    max-height: calc(100vh - 4.5rem);
+    overflow-y: scroll;
+}
+
+
+
+.column{
+    flex-direction: column;
+}
+
+
+@media screen and (max-width:750px) {
+    .navbar{
+        height:4rem;
+        min-height:4rem;
+    }
+    .bottom-nav{
+        height:4rem;
+        min-height:4rem;
+    }
+
+    .inner-layout{
+        display:flex;
+        flex-direction: column;
+    }
+    .inner-layout .app-content{
+        height: auto;
+        flex:1;
+        overflow-y: scroll;
+    }
+}
