@@ -7,6 +7,18 @@
     background-color: rgb(243, 243, 243);
 }
 
+.app-content{
+    flex:1;
+    overflow-y: scroll;
+}
+
+.app-container{
+    height: calc(100vh - 4.5rem);
+    max-height: calc(100vh - 4.5rem);
+    display:flex;
+    flex-direction: column;
+}
+
 h1,h2,h3,h4,h5,h6{
     color:rgb(80, 79, 79);
 }
@@ -19,10 +31,7 @@ img{
     height:100%;
 }
 
-.app-content{
-    max-height: calc(100vh - 4.5rem);
-    overflow-y: scroll;
-}
+
 
 
 

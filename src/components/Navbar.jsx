@@ -1,3 +1,4 @@
+// import { Link } from 'react-router-dom'
 import { FiBell, FiUser } from 'react-icons/fi'
 import { useGlobalContext } from '../contexts/GlobalContextProvider'
 
@@ -13,6 +14,9 @@ export default function Navbar() {
       </div>
       <div className="flex items-center">
         <button className="px-3 py-2 bg-orange-400" onClick={() => setShowForm(true)}>Register Truck</button>
+        {/* <Link className="mx-3" to='/'>
+          Home
+        </Link> */}
         <div className="mx-3">
           <FiBell className='text-2xl' />
         </div>

@@ -1,7 +1,7 @@
 
 
 export const clients = [
-    'UNICEF',
+    'UNICEFE',
     'ICRC',
     'CARE',
     'BOLLORE',
