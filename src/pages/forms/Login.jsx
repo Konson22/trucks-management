@@ -25,7 +25,7 @@ export default function Login() {
         setLoading(true)
         try{
             // const response = await axios.post('http://localhost:3001/auth/login', values, {
-            const response = await axios.post('https://trucks-management-api.onrender.com/auth/login', values, {
+            const response = await axios.post('https://rose-drab-seahorse.cyclic.app/auth/login', values, {
                 withCredentials:true, credentials:'include'
             }).then(res => res)
             if(response.status === 200){

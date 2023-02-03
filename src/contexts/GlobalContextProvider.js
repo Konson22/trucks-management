@@ -20,6 +20,10 @@ export default function GlobalContextProvider({children}) {
   const [showForm, setShowForm] = useState(false)
   const [trucksData, setTrucksData] = useState(records)
 
+  useEffect(() => {
+    setLoading(false)
+    setError('')
+  }, [])
 
   useEffect(() => {
 
@@ -31,7 +35,7 @@ export default function GlobalContextProvider({children}) {
       setLoading(true)
       try {
         // const response = await axios('http://localhost:3001/records', {
-        const response = await axios('https://trucks-management-api.onrender.com/records', {
+        const response = await axios('https://rose-drab-seahorse.cyclic.app/records', {
           signal:controller.signal,
           withCredentials:true, credentials:'include'
         }).then(res => res);
