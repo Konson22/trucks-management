@@ -14,14 +14,16 @@ export default function GlobalContextProvider({children}) {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [profile, setProfile] = useState(null)
+  const [profile, setProfile] = useState({
+    name:'Konson Ak', org:'VSS', _id:'sduryr'
+  })
   const [showForm, setShowForm] = useState(false)
   const [trucksData, setTrucksData] = useState([])
 
 
   useEffect(() => {
 
-    localStorageData && setProfile(localStorageData)
+    localStorageData && console.log('j')
 
     let isMounted = true
     const controller = new AbortController()
