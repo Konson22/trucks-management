@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState, useContext, createContext, useEffect } from 'react'
-// import records from '../assets/records.json'
+import records from '../assets/records.json'
 
 const apiContext = createContext()
 
@@ -18,7 +18,7 @@ export default function GlobalContextProvider({children}) {
     name:'Konson Ak', org:'VSS', _id:'sduryr'
   })
   const [showForm, setShowForm] = useState(false)
-  const [trucksData, setTrucksData] = useState([])
+  const [trucksData, setTrucksData] = useState(records)
 
 
   useEffect(() => {
