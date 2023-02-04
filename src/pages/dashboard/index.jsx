@@ -64,9 +64,9 @@ export default function DashboardPage() {
     <div className='app-container px-[1.5%]'>
       <div className="flex items-center justify-between my-6 mx-3">
         <div className="">
-          <h1 className="text-2xl">{profile && profile.org} Trucks 20</h1>
+          <h1 className="text-2xl">{profile && profile.org} Trucks ({records.length})</h1>
         </div>
-        <Searchbar handleSelectSearch={handleSelectSearch} setSelectedDate={handleSearchByDate} handleSearch={handleSearch} profile={profile} />
+        <Searchbar handleSelectSearch={handleSelectSearch} setSelectedDate={handleSearchByDate} handleSearch={handleSearch} profile={{org:"VSS"}} />
       </div>
       <div className="app-content bg-white">
         {loading && <div className='px-8 text-xl'>Loading...</div>}

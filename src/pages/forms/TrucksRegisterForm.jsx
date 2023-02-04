@@ -4,9 +4,9 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { useState } from "react"
 import { FaSave, FaTimes } from "react-icons/fa"
-import axios from 'axios'
 import { clients } from "../../assets/data"
 import { useRecordsContext } from "../../contexts/RecordsContextProvider"
+import axiosInstance from "../../hooks/axiosInstance"
 
 
 export default function TrucksRegisterForm() {
@@ -28,9 +28,7 @@ export default function TrucksRegisterForm() {
     const handleSubmit = async values => {
         setLoading(true)
         try{
-            const response = await axios.post('http://localhost:3001/records', values, {
-                withCredentials:true, credentials:'include'
-            }).then(res => res)
+            const response = await axiosInstance.post('/records/add', values).then(res => res)
             if(response.status === 201){
                 setData(prev => [...prev, response.data])
                 setShowForm(null)
