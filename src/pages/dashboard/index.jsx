@@ -71,7 +71,7 @@ export default function DashboardPage() {
       <div className="app-content bg-white">
         {loading && <div className='px-8 text-xl'>Loading...</div>}
         {error && <div className='px-8 text-xl'>{error}</div>}
-        {(!loading && !error) && <TruckTableData data={records} message={message} profile={profile} /> }
+        {(!loading && !error) && <TruckTableData data={records} message={message} profile={{name:'', org:'VSS'}} /> }
       </div>
     </div>
   )

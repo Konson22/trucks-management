@@ -1,6 +1,6 @@
 import { useState, useContext, createContext, useEffect } from 'react'
 import axiosInstance from '../hooks/axiosInstance'
-
+import recordsJson from '../assets/records.json'
 
 const recordsApi = createContext()
 
@@ -14,7 +14,7 @@ export default function RecordsContextProvider({children}) {
   
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [data, setData] = useState([])
+  const [data, setData] = useState(recordsJson)
 
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function RecordsContextProvider({children}) {
     const fetchMessages = async() => {
       setLoading(true)
       try {
-        const response = await axiosInstance.post('/records', {user:profile.org}, {
+        const response = await axiosInstance.post('/records', {user:'VSS'}, {
           signal:controller.signal,
         }).then(res => res);
         if(isMounted){
@@ -43,7 +43,7 @@ export default function RecordsContextProvider({children}) {
       controller.abort()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile]);
+  }, []);
 
 
   const checkOut = async id => {
