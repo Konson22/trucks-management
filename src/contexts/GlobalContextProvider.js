@@ -37,7 +37,7 @@ export default function GlobalContextProvider({children}) {
         // const response = await axios('http://localhost:3001/records', {
         const response = await axios('https://rose-drab-seahorse.cyclic.app/records', {
           signal:controller.signal,
-          withCredentials:true, credentials:'include'
+          // withCredentials:true, credentials:'include'
         }).then(res => res);
         if(isMounted){
           setTrucksData(response.data)
