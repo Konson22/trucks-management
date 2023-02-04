@@ -1,15 +1,13 @@
 import { clients } from "../assets/data";
-import { useGlobalContext } from "../contexts/GlobalContextProvider";
 
-export default function Searchbar({setSelectedDate, handleSearch}) {
 
-  const { profile } = useGlobalContext()
+export default function Searchbar({setSelectedDate, handleSearch, handleSelectSearch, profile}) {
 
   return (
     <div className="flex">
       {profile && (profile.org === 'VSS' || profile.org === 'WLC') &&
-        <select className="flex h-12 focus:border-none focus:outline-none px-4 bg-white">
-          <option value="all">CLIENTS</option>
+        <select className="flex h-12 focus:border-none focus:outline-none px-4 bg-white" onChange={e => handleSelectSearch(e.target.value)}>
+          <option value="all">All RECORDS</option>
           {clients.map(client => (
             <option value={client} key={client}>{client}</option>
           ))}

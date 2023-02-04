@@ -1,38 +1,27 @@
 import { ErrorMessage, useField } from 'formik'
-// import { TextField } from '@mui/material'
 
 
-export default function InputField({...props}){
+export default function InputField({kn, cName='mb-4', ...props}){
 
     const [field, meta] = useField(props)
 
     return(
-        <div className='mb-4' key={props.name}>
+        <div className={cName} key={kn}>
+            <label className='mx-2' htmlFor={props.name}>{props.label}</label>
             {props.type !== 'select' && 
-                <input className={`h-[3.2rem] w-full px-3 focus:border-none focus:outline-none bg-white ${(meta.touched && meta.error) ? 'border-2 border-red-600' : ''}`} 
+                <input className={`h-[3.2rem] w-full px-3 mt-1 focus:border-none focus:outline-none bg-white ${(meta.touched && meta.error) ? 'border-b border-red-600' : ''}`} 
                     {...field} 
                     {...props} 
                 />
             }
             {props.options && 
-                <select className={`h-[3.2rem] w-full px-3 bg-white ${(meta.touched && meta.error) ? 'border-2 border-red-600' : ''}`} name={props.name} {...field}>
+                <select className={`h-[3.2rem] w-full px-3 mt-1 bg-white ${(meta.touched && meta.error) ? 'border-b border-red-600' : ''}`} name={props.name} {...field}>
                     <option value=''>SELECT ORG</option>
                     {props.options.map(opt => (
                         <option value={opt}>{opt}</option>
                     ))}
                 </select>
             }
-            {/* <TextField
-                fullWidth
-                variant='standard'
-                color='primary'
-                label={label}
-                className={`bg-white ${(meta.touched && meta.error) ? 'border-2 border-red-600' : ''}` }
-                className={(meta.touched && meta.error) ? 'error-border' : '' }
-                {...field}
-                {...props}
-                autoComplete="off"
-            /> */}
             <ErrorMessage component='div' name={props.name} className="text-red-600 my-1" />
         </div>
     )

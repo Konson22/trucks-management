@@ -5,7 +5,7 @@ import { useGlobalContext } from '../contexts/GlobalContextProvider'
 
 export default function Navbar() {
 
-  const { setShowForm } = useGlobalContext()
+  const { setShowForm, logOutFn } = useGlobalContext()
 
   return (
     <div className='h-[4.5rem] bg-gray-700 text-white flex items-center justify-between px-[3%]'>
@@ -14,10 +14,7 @@ export default function Navbar() {
       </div>
       <div className="flex items-center">
         <button className="px-3 py-2 bg-orange-400" onClick={() => setShowForm(true)}>Register Truck</button>
-        {/* <Link className="mx-3" to='/'>
-          Home
-        </Link> */}
-        <div className="mx-3">
+        <div className="mx-3" onClick={logOutFn}>
           <FiBell className='text-2xl' />
         </div>
         <div className="">

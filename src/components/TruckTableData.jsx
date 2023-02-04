@@ -1,8 +1,8 @@
 import { useGlobalContext } from "../contexts/GlobalContextProvider"
 
-export default function TruckTableData({data}) {
+export default function TruckTableData({data, profile}) {
 
-    const { profile, checkOut } = useGlobalContext()
+    const { checkOut } = useGlobalContext()
 
   return (
     <table className="w-full">
@@ -13,7 +13,7 @@ export default function TruckTableData({data}) {
                 <td className='px-2 py-3 text-left border border-white'>Contact</td>
                 <td className='px-2 py-3 text-left border border-white'>Company</td>
                 <td className='px-2 py-3 text-left border border-white'>Purpose</td>
-                {profile && (profile.org === 'VSS' || profile.org === 'WLC') && <td className='px-2 py-3 text-left border border-white'>Client</td>}
+                <td className='px-2 py-3 text-left border border-white'>Client</td>
                 <td className='px-2 py-3 text-left border border-white'>Arrival Date</td>
                 <td className='px-2 py-3 text-left border border-white'>Time in</td>
                 <td className='px-2 py-3 text-left border border-white'>Depature Date</td>
@@ -23,7 +23,7 @@ export default function TruckTableData({data}) {
             </tr>
         </thead>
         <tbody>
-        {profile && data.length >= 1 ? data.map(row => {
+        {data.length >= 1 ? data.map(row => {
             const duration = row.depature && parseInt(row.depature.date.split('/').join('')) - parseInt(row.arrival.date.split('/').join(''))
             return(
                 <tr  className='hover:bg-gray-100 border-b' key={row._id}>
@@ -32,7 +32,7 @@ export default function TruckTableData({data}) {
                     <td className='p-2'>{row.contact}</td>
                     <td className='p-2'>{row.company}</td>
                     <td className='p-2'>{row.purpuse}</td>
-                    {(profile.org === 'VSS' || profile.org === 'WLC') && <td className='p-2'>{row.client}</td>}
+                    <td className='p-2'>{row.client}</td>
                     <td className='p-2'>{row.arrival.date}</td>
                     <td className='p-2'>{row.arrival.time}</td>
                     <td className='p-2'>{row.depature ? row.arrival.date : 'Waiting'}</td>

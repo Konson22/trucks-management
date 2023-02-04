@@ -2,16 +2,15 @@ import InputField from "./InputField"
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { useState } from "react"
-import axios from 'axios'
-import { useGlobalContext } from "../../contexts/GlobalContextProvider"
 import { clients } from "../../assets/data"
 import { useNavigate } from "react-router-dom"
+import axiosInstance from "../../hooks/axiosInstance"
+
 
 
 export default function Login() {
 
-  const { setProfile } = useGlobalContext()
-  const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState(false)
@@ -24,15 +23,10 @@ export default function Login() {
     const handleSubmit = async values => {
         setLoading(true)
         try{
-            // const response = await axios.post('http://localhost:3001/auth/login', values, {
-            const response = await axios.post('https://rose-drab-seahorse.cyclic.app/auth/login', values, {
-                withCredentials:true, credentials:'include'
-            }).then(res => res)
-            if(response.status === 200){
-                localStorage.setItem('wlc-user-auth', JSON.stringify(response.data))
-                setProfile(response.data)
-                navigate('/')
-            }
+            // const response = await axios.post('https://rose-drab-seahorse.cyclic.app/auth/login', values, {
+            const response = await axiosInstance.post('/auth/login', values).then(res => res)
+            localStorage.setItem('wlc-user-auth', JSON.stringify(response.data))
+            navigate('/')
         } catch(error){
             if(error.response){
                 setMessage(error.response?.data)
@@ -59,8 +53,9 @@ export default function Login() {
                     {fields.map(field => 
                         <InputField 
                             name={field.name} 
+                            kn={field.name} 
                             type={field.type} 
-                            label={field.label} 
+                            label=''
                             placeholder={field.placeholder} 
                             options={field.options}  
                         />
@@ -82,7 +77,7 @@ const fields = [
         type:'select',
         placeholder:'example@gmail.com', 
         label:'E-mail',
-        options:clients
+        options:[...clients, 'VSS', 'WLC']
     },
     {name:'password', type:'password', placeholder:'Enter password', label:'Password'}
 ]
