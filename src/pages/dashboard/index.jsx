@@ -178,7 +178,7 @@ function TruckTableData({data, profile, message}) {
                         ${(truck.status && truck.depature) ? 'bg-green-500 cursor-not-allowed' : ''}
                         mr-2 rounded
                       `} 
-                      disabled={(!truck.status || truck.depature) && true}
+                      // disabled={(!truck.status || truck.depature) && true}
                       onClick={() => checkOut(truck._id)}
                     >
                       {!truck.status && 'Not cleared'}
