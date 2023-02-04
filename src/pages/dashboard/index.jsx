@@ -1,53 +1,26 @@
 import { useState, useEffect } from "react"
 import Searchbar from "../../components/Searchbar"
 import { useRecordsContext } from "../../contexts/RecordsContextProvider"
-import axiosInstance from "../../hooks/axiosInstance"
 
 
 export default function DashboardPage() {
 
   const profile = JSON.parse(localStorage.getItem('wlc-user-auth'))
   
-  // const { loading, error, data } = useRecordsContext()
-  const [loading, setLoading] = useState(false)
+  const { loading, error, data } = useRecordsContext()
   const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
   const [records, setRecords] = useState([])
 
   useEffect(() => {
-    let isMounted = true
-    const controller = new AbortController()
-    const fetchMessages = async() => {
-      setLoading(true)
-      try {
-        const response = await axiosInstance.post('/records', {user:profile.org}, {
-        // const response = await axios('https://rose-drab-seahorse.cyclic.app/records', {
-          signal:controller.signal,
-        }).then(res => res);
-        if(isMounted){
-          setRecords(response.data)
-        }
-      } catch (error) {
-        setError(error?.response?.data)
-      } finally{
-        setLoading(false)
-      }
+    if(!loading && !error && data.length >= 1){
+      setRecords(data)
     }
-    profile && fetchMessages();
-
-    return () => {
-      isMounted = false
-      controller.abort()
-    }
-    // if(!loading && !error && data.length >= 1){
-    //   setRecords(data)
-    // }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
   const handleSearch = str => {
-    const results = records.filter(rec => rec.plate_no.toLowerCase().startsWith(str.toLowerCase()))
+    const results = data.filter(rec => rec.plate_no.toLowerCase().startsWith(str.toLowerCase()))
     if(results.length >= 1){
       setMessage('')
       setRecords(results)
@@ -60,7 +33,7 @@ export default function DashboardPage() {
   
   const handleSearchByDate = dateStr => {
     const myDate = new Date(dateStr).toLocaleDateString()
-    const results = records.filter(rec => rec.arrival.date === myDate)
+    const results = data.filter(rec => rec.arrival.date === myDate)
     if(results.length >= 1){
       setMessage('')
       setRecords(results)
@@ -74,9 +47,9 @@ export default function DashboardPage() {
   const handleSelectSearch = value => {
     setMessage('')
     if(value === 'all'){
-      setRecords(records)
+      setRecords(data)
     }else{
-      const results = records.filter(rec => rec.client === value)
+      const results = data.filter(rec => rec.client === value)
       if(results.length >= 1){
         setRecords(results)
       }else{

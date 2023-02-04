@@ -1,6 +1,5 @@
 import { useState, useContext, createContext, useEffect } from 'react'
 import axiosInstance from '../hooks/axiosInstance'
-import recordsJson from '../assets/records.json'
 
 
 const recordsApi = createContext()
@@ -15,7 +14,6 @@ export default function RecordsContextProvider({children}) {
   
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  // const [data, setData] = useState(recordsJson)
   const [data, setData] = useState([])
 
 
@@ -27,7 +25,6 @@ export default function RecordsContextProvider({children}) {
       setLoading(true)
       try {
         const response = await axiosInstance.post('/records', {user:profile.org}, {
-        // const response = await axios('https://rose-drab-seahorse.cyclic.app/records', {
           signal:controller.signal,
         }).then(res => res);
         if(isMounted){
