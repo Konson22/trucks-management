@@ -9,9 +9,9 @@ export const useGlobalContext = () => useContext(apiContext)
 
 export default function GlobalContextProvider({children}) {
 
-  const [showForm, setShowForm] = useState(null)
-  const [currentRecords, setCurrentRecords] = useState('TRUCKS RECORDS')
+  const [showForm, setShowForm] = useState(false)
   const navigate = useNavigate()
+
 
   const logOutFn = async() => {
     localStorage.clear()
@@ -20,7 +20,7 @@ export default function GlobalContextProvider({children}) {
 
 
   return (
-    <apiContext.Provider value={{ showForm, currentRecords, setCurrentRecords, setShowForm, logOutFn }}>
+    <apiContext.Provider value={{ showForm, setShowForm, logOutFn }}>
       {children}
     </apiContext.Provider>
   )

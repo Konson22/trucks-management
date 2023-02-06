@@ -1,11 +1,17 @@
-import {Routes, Route} from 'react-router-dom'
-import Dashboard from "./pages/dashboard/Dashboard";
+import Navbar from "./components/Navbar"
+import { useGlobalContext } from "./contexts/GlobalContextProvider"
+import RecordsContextProvider from "./contexts/RecordsContextProvider"
+import FormsModal from "./pages/forms/FormsModal"
 
+export default function Layout({children}){
 
-export default function Layout() {
-  return (
-    <Routes>
-        <Route path='/' element={<Dashboard />} />
-    </Routes>
+  const { showForm } = useGlobalContext()
+
+  return(
+    <RecordsContextProvider>
+      {showForm && <FormsModal />}
+      <Navbar />
+      {children}
+    </RecordsContextProvider>
   )
 }

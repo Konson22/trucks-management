@@ -19,11 +19,6 @@
     flex-direction: column;
 }
 
-.login-container{
-    background-image: url('./assets/images/hamburg-6849995_960_720.jpg');
-    background-size: 100% 100%;
-}
-
 h1,h2,h3,h4,h5,h6{
     color:rgb(80, 79, 79);
 }

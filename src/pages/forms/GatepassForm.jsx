@@ -4,12 +4,12 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { useState } from "react"
 import { FaSave } from "react-icons/fa"
-import { clients } from "../../assets/data"
 import { useRecordsContext } from "../../contexts/RecordsContextProvider"
 import axiosInstance from "../../hooks/axiosInstance"
+import { FormLoader } from "../../components/Loaders"
 
 
-export default function TrucksRegisterForm() {
+export default function GatepassForm() {
 
     const profile = JSON.parse(localStorage.getItem('wlc-user-auth'))
     const { setShowForm } = useGlobalContext()
@@ -57,10 +57,9 @@ export default function TrucksRegisterForm() {
             onSubmit={values => handleSubmit(values)}
         >
             <div className='form-container'>
-                <h1 className="text-2xl mb-5">Trucks Registeration Form</h1>
+                <h1 className="text-2xl font-bold mb-5">Gate pass</h1>
                 { message && <div className='px-4 py-2 my-4 bg-red-500'>{message}</div> }
                 <Form>
-                <div className="grid grid-cols-2 gap-4">
                     {fields.map(field => 
                         <InputField 
                             name={field.name} 
@@ -68,10 +67,9 @@ export default function TrucksRegisterForm() {
                             label={field.label} 
                             placeholder={field.placeholder} 
                             options={field.options}
-                            cName=''
+                            cName='mb-4'
                         />
                     )}
-                    </div>
                     <div className="flex text-white mt-8">
                         <button 
                             className='
@@ -108,22 +106,10 @@ export default function TrucksRegisterForm() {
   )
 }
 
-function FormLoader(){
-    return(
-        <div className="h-full w-full flex items-center justify-center bg-opacity-10 bg-white backdrop-blur-sm absolute inset-0 z-50">
-            <div className="">
-                <img src={process.env.PUBLIC_URL+'/images/spinner.gif'} alt='Loading...' />
-                <span className="text-xl mt-6">loading...</span>
-            </div>
-        </div>
-    )
-}
 
 const fields = [
-    {name:'plate_no', placeholder:'Enter plate number', type:'text', label:'Plate No'},
-    {name:'company', placeholder:'Enter Company Name', type:'text', label:'Company Name'},
-    {name:'client', placeholder:'Enter Client Name', type:'select', label:'Client Name', options:clients},
-    {name:'purpuse', placeholder:'Enter plate number', type:'select', label:'Purpuse', options:['Delivery', 'Loading', 'Official']},
+    {name:'item_name', placeholder:'Item Name', type:'text', label:'Item Name'},
+    {name:'qty', placeholder:'Quantity', type:'text', label:'Quantity'},
+    {name:'destination', placeholder:'Destination', type:'text', label:'Destination'},
     {name:'driver_name', placeholder:'Enter Driver Name', type:'text', label:'Driver Name'},
-    {name:'contact', placeholder:'Enter phone No', type:'text', label:'Contact'},
 ]

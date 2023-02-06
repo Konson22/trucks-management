@@ -5,5 +5,4 @@ export const clients = [
     'ICRC',
     'CARE',
     'BOLLORE',
-    'WLC',
 ]

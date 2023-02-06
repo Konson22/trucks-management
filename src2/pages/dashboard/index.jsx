@@ -3,7 +3,7 @@ import Searchbar from "../../components/Searchbar"
 import { useRecordsContext } from "../../contexts/RecordsContextProvider"
 
 
-export default function Dashboard() {
+export default function DashboardPage() {
 
   const profile = JSON.parse(localStorage.getItem('wlc-user-auth'))
   
@@ -11,14 +11,12 @@ export default function Dashboard() {
   const [message, setMessage] = useState('')
   const [records, setRecords] = useState([])
 
-
   useEffect(() => {
-    if(data.length >= 1){
+    if(!loading && !error && data.length >= 1){
       setRecords(data)
     }
-    console.log(data)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading,  data])
+  }, [])
 
 
   const handleSearch = str => {
@@ -64,16 +62,16 @@ export default function Dashboard() {
 
   return (
     <div className='app-container px-[1.5%]'>
-      <div className="md:flex items-center justify-between my-6 mx-3">
+      <div className="flex items-center justify-between my-6 mx-3">
         <div className="">
-          <h1 className="text-2xl">TRUCKS REGISTERATION LOG</h1>
+          <h1 className="text-2xl">{profile && profile.org} Trucks ({records.length})</h1>
         </div>
-        <Searchbar handleSelectSearch={handleSelectSearch} setSelectedDate={handleSearchByDate} handleSearch={handleSearch} profile={profile} />
+        <Searchbar handleSelectSearch={handleSelectSearch} setSelectedDate={handleSearchByDate} handleSearch={handleSearch} profile={{org:"VSS"}} />
       </div>
       <div className="app-content bg-white">
         {loading && <div className='px-8 text-xl'>Loading...</div>}
         {error && <div className='px-8 text-xl'>{error}</div>}
-        {(!loading && !error) && <TruckTableData data={records} message={message} profile={profile} /> }
+        {(!loading && !error) && <TruckTableData data={records} message={message} profile={{name:'', org:'VSS'}} /> }
       </div>
     </div>
   )
@@ -82,7 +80,7 @@ export default function Dashboard() {
 
 function TruckTableData({data, profile, message}) {
 
-  const { checkOut, clearForDispatchFn, clearOutloading, checkOutloading } = useRecordsContext()
+  const { checkOut, clearForDispatchFn } = useRecordsContext()
 
   return (
     <>
@@ -107,7 +105,7 @@ function TruckTableData({data, profile, message}) {
         {data.length >= 1 && data.map(truck => {
           const duration = truck.depature && parseInt(truck.depature.date.split('/').join('')) - parseInt(truck.arrival.date.split('/').join(''))
           return(
-            <tr  className={`hover:bg-red-100 border-b`} key={truck._id}>
+            <tr  className='hover:bg-gray-100 border-b' key={truck._id}>
               <td className='p-2'>{truck.plate_no}</td>
               <td className='p-2'>{truck.driver_name}</td>
               <td className='p-2'>{truck.contact}</td>
@@ -118,61 +116,65 @@ function TruckTableData({data, profile, message}) {
               <td className='p-2'>{truck.arrival.time}</td>
               <td className={`
                 p-2
-                ${!truck.cleared ? 'text-red-500' : ''}
-                ${(truck.cleared && !truck.depature) ? 'text-yellow-500' : ''}
+                ${!truck.status ? 'text-red-500' : ''}
+                ${(truck.status && !truck.depature) ? 'text-yellow-500' : ''}
               `}>
-                {!truck.cleared && 'waiting'}
-                {(truck.cleared && !truck.depature) && 'offloaded'}
-                {(truck.cleared && truck.depature) && truck.depature.date}
+                {!truck.status && 'waiting'}
+                {(truck.status && !truck.depature) && 'offloaded'}
+                {(truck.status && truck.depature) && truck.depature.date}
               </td>
               <td className={`
                 p-2
-                ${!truck.cleared ? 'text-red-500' : ''}
-                ${(truck.cleared && !truck.depature) ? 'text-yellow-500' : ''}
+                ${!truck.status ? 'text-red-500' : ''}
+                ${(truck.status && !truck.depature) ? 'text-yellow-500' : ''}
               `}>
-                {!truck.cleared && 'waiting'}
-                {(truck.cleared && !truck.depature) && 'offloaded'}
-                {(truck.cleared && truck.depature) && truck.depature.time}
+                {!truck.status && 'waiting'}
+                {(truck.status && !truck.depature) && 'offloaded'}
+                {(truck.status && truck.depature) && truck.depature.time}
               </td>
               <td className={`
                 p-2
-                ${!truck.cleared ? 'text-red-500' : ''}
-                ${(truck.cleared && !truck.depature) ? 'text-yellow-500' : ''}
+                ${!truck.status ? 'text-red-500' : ''}
+                ${(truck.status && !truck.depature) ? 'text-yellow-500' : ''}
               `}>
-                {!truck.cleared && 'waiting'}
-                {(truck.cleared && !truck.depature) && 'offloaded'}
-                {(truck.cleared && truck.depature) && duration+' Days'}
+                {!truck.status && 'waiting'}
+                {(truck.status && !truck.depature) && 'offloaded'}
+                {(truck.status && truck.depature) && duration+' Days'}
               </td>
+              {/* <td className='p-2'>{truck.depature ? duration+' Days' : 'Waiting'}</td> */}
               <td className='p-2 flex text-white'>
-                {profile.org === 'VSS' && 
-                  <div>
-                    {!truck.cleared && <button className='rounded px-2 py-1 bg-yellow-400 cursor-not-allowed'>Not Cleared</button>}
-                    {(truck.cleared && !truck.depature) && 
-                      <button className='rounded px-2 py-1 bg-green-400' onClick={() => checkOut(truck._id)}>
-                        {checkOutloading ? "Loading..." : "Cleared"}
-                      </button>}
-                    {(truck.cleared && truck.depature) && 
-                      <button className='rounded cursor-not-allowed px-2 py-1 bg-red-400'>
-                        Depatured
-                      </button>
-                    }
-                  </div>
-                }
-                {profile.org !== 'VSS' && 
-                  <div>
-                    {!truck.cleared && 
-                      <button className='rounded px-2 py-1 bg-yellow-400' onClick={() => clearForDispatchFn(truck._id)}>
-                        {clearOutloading ? 'Loading...' : 'Releas'}
-                      </button>
-                    }
-                    {(truck.cleared && !truck.depature) && <button className='rounded px-2 py-1 bg-green-400 cursor-not-allowed'>Cleared</button>}
-                    {(truck.cleared && truck.depature) && 
-                      <button className='rounded cursor-not-allowed px-2 py-1 bg-red-400'>
-                        Depatured
-                      </button>
-                    }
-                  </div>
-                }
+                  {profile.org === 'VSS' && 
+                    <button className={`
+                        py-1 px-2 text-white 
+                        ${!truck.status ? 'bg-red-500 cursor-not-allowed' : ''}
+                        ${(truck.status && !truck.depature) ? 'bg-yellow-500 cursor-not-allowed' : ''}
+                        ${(truck.status && truck.depature) ? 'bg-green-500 cursor-not-allowed' : ''}
+                        mr-2 rounded
+                      `} 
+                      // disabled={(!truck.status || truck.depature) && true}
+                      onClick={() => checkOut(truck._id)}
+                    >
+                      {!truck.status && 'Not cleared'}
+                      {(truck.status && !truck.depature) && 'Ready to go'}
+                      {(truck.status && truck.depature) && 'Dispatched'}
+                    </button>
+                  }
+                  {(profile.org !== 'VSS') && <button 
+                      className={`
+                        py-1 px-2 text-white
+                        ${!truck.status ? 'bg-red-500 cursor-not-allowed' : ''}
+                        ${(truck.status && !truck.depature) ? 'bg-yellow-500 cursor-not-allowed' : ''}
+                        ${(truck.status && truck.depature) ? 'bg-green-500 cursor-not-allowed' : ''}
+                        mr-2 rounded
+                      `} 
+                      // disabled={(truck.status || truck.depature) && true}
+                      onClick={() => clearForDispatchFn(truck._id)}
+                  >
+                    {!truck.status && 'Not cleared'}
+                    {(truck.status && !truck.depature) && 'Ready to go'}
+                    {(truck.status && truck.depature) && 'Dispatched'}
+                    {/* {truck.depature && 'Left'} */}
+                  </button>}
               </td>
             </tr>
           )

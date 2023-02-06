@@ -7,7 +7,7 @@ export default function InputField({kn, cName='mb-4', ...props}){
 
     return(
         <div className={cName} key={kn}>
-            <label className='' htmlFor={props.name}>{props.label}</label>
+            <label className='mx-2' htmlFor={props.name}>{props.label}</label>
             {props.type !== 'select' && 
                 <input className={`h-[3.2rem] w-full px-3 mt-1 focus:border-none focus:outline-none bg-white ${(meta.touched && meta.error) ? 'border-b border-red-600' : ''}`} 
                     {...field} 
@@ -15,8 +15,8 @@ export default function InputField({kn, cName='mb-4', ...props}){
                 />
             }
             {props.options && 
-                <select className={`h-[3.2rem] w-full focus:border-none focus:outline-none px-3 mt-1 bg-white ${(meta.touched && meta.error) ? 'border-b border-red-600' : ''}`} name={props.name} {...field}>
-                    <option value=''>Select {props.label}</option>
+                <select className={`h-[3.2rem] w-full px-3 mt-1 bg-white ${(meta.touched && meta.error) ? 'border-b border-red-600' : ''}`} name={props.name} {...field}>
+                    <option value=''>SELECT ORG</option>
                     {props.options.map(opt => (
                         <option value={opt}>{opt}</option>
                     ))}
