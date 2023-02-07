@@ -1,5 +1,48 @@
-import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import { clients } from "../assets/data";
+
+
+export function Searchbar({handleSearch}) {
+  return (
+    <div className="flex h-12 md:w-[350px] bg-white rounded overflow-hidden">
+      <input 
+        className='h-full w-full focus:border-none focus:outline-none bg-transparent pl-3' 
+        type="search" placeholder="Enter Truck no" 
+        onChange={e => handleSearch(e.target.value)}
+      />
+      <button className="h-full md:bg-orange-400 px-3">
+        <FaSearch className="md:hidden"/>
+        <span className="md:block hidden">Search</span>
+      </button>
+    </div>
+  )
+}
+
+export function SelectSearch({handleSelectSearch}) {
+  return (
+    <select className="flex h-12 focus:border-none focus:outline-none px-4 bg-white ml-2" onChange={e => handleSelectSearch(e.target.value)}>
+      <option value="all">All RECORDS</option>
+      {clients.map(client => (
+        <option value={client} key={client}>{client}</option>
+      ))}
+    </select>
+  )
+}
+
+export function DateSearch({setSelectedDate}) {
+  return (
+    <div className="h-12 bg-white pr-3 md:mx-2 mr-2">
+      <input className='h-full flex-1 focus:border-none focus:outline-none bg-transparent pl-3' type="date"
+        onChange={e => setSelectedDate(e.target.value)}
+      />
+    </div>
+  )
+}
+
+
+/*
+import { useState } from "react";
+
 import { FaChevronDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -29,26 +72,12 @@ export default function Searchbar({setSelectedDate, recordTitle='TRUCKS RECORDS'
         </div>
       }
       {(profile.org === 'VSS' || profile.org === 'WLC') &&
-        <select className="flex h-12 focus:border-none focus:outline-none px-4 bg-white ml-2" onChange={e => handleSelectSearch(e.target.value)}>
-          <option value="all">All RECORDS</option>
-          {clients.map(client => (
-            <option value={client} key={client}>{client}</option>
-          ))}
-        </select>
+        
       }
-      <div className="h-12 bg-white pr-3 mx-2">
-        <input className='h-full flex-1 focus:border-none focus:outline-none bg-transparent pl-3' type="date"
-          onChange={e => setSelectedDate(e.target.value)}
-        />
-      </div>
-      <div className="md:flex hidden h-12 w-[350px] bg-white">
-        <input 
-          className='h-full flex-1 focus:border-none focus:outline-none bg-transparent pl-3' 
-          type="search" placeholder="Enter Truck no" 
-          onChange={e => handleSearch(e.target.value)}
-        />
-        <button className="h-full bg-orange-400 px-3">Search</button>
-      </div>
+      
+      
     </div>
   )
 }
+
+*/

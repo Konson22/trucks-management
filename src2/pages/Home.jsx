@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import Searchbar from "../../components/Searchbar"
-import { useRecordsContext } from "../../contexts/RecordsContextProvider"
+import Searchbar from "../components/Searchbar"
+import { useRecordsContext } from "../contexts/RecordsContextProvider"
 
 
 export default function Dashboard() {

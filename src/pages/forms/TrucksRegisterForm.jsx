@@ -3,7 +3,7 @@ import InputField from "./InputField"
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { useState } from "react"
-import { FaSave } from "react-icons/fa"
+import { FaSave, FaTimes } from "react-icons/fa"
 import { clients } from "../../assets/data"
 import { useRecordsContext } from "../../contexts/RecordsContextProvider"
 import axiosInstance from "../../hooks/axiosInstance"
@@ -42,7 +42,10 @@ export default function TrucksRegisterForm() {
     }
 
   return (
-    <div className="">
+    <div className="bg-gray-200 p-10 rounded shadow-xl relative w-[60%]">
+        <div className="absolute right-2 top-2 cursor-pointer" onClick={() => setShowForm(null)}>
+        <FaTimes className='text-xl' />
+        </div>
         {loading && <FormLoader />}
         <Formik
             initialValues={{
@@ -60,7 +63,7 @@ export default function TrucksRegisterForm() {
                 <h1 className="text-2xl mb-5">Trucks Registeration Form</h1>
                 { message && <div className='px-4 py-2 my-4 bg-red-500'>{message}</div> }
                 <Form>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="md:grid grid-cols-3 gap-4">
                     {fields.map(field => 
                         <InputField 
                             name={field.name} 

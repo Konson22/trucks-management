@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import Searchbar from "../../components/Searchbar"
-import { useRecordsContext } from "../../contexts/RecordsContextProvider"
+import Searchbar from "./Searchbar"
+import { useRecordsContext } from "../contexts/RecordsContextProvider"
 
 
-export default function Dashboard() {
+export default function TrucksRecords() {
 
   const profile = JSON.parse(localStorage.getItem('wlc-user-auth'))
   
@@ -64,9 +64,9 @@ export default function Dashboard() {
 
   return (
     <div className='app-container px-[1.5%]'>
-      <div className="md:flex items-center justify-between my-6 mx-3">
+      <div className="flex items-center justify-between my-6 mx-3">
         <div className="">
-          <h1 className="text-2xl">TRUCKS REGISTERATION LOG</h1>
+          <h1 className="text-2xl">{profile && profile.org} Trucks ({records.length})</h1>
         </div>
         <Searchbar handleSelectSearch={handleSelectSearch} setSelectedDate={handleSearchByDate} handleSearch={handleSearch} profile={profile} />
       </div>
@@ -82,7 +82,7 @@ export default function Dashboard() {
 
 function TruckTableData({data, profile, message}) {
 
-  const { checkOut, clearForDispatchFn, clearOutloading, checkOutloading } = useRecordsContext()
+  const { checkOut, clearForDispatchFn } = useRecordsContext()
 
   return (
     <>
@@ -118,30 +118,30 @@ function TruckTableData({data, profile, message}) {
               <td className='p-2'>{truck.arrival.time}</td>
               <td className={`
                 p-2
-                ${!truck.cleared ? 'text-red-500' : ''}
-                ${(truck.cleared && !truck.depature) ? 'text-yellow-500' : ''}
+                ${!truck.status ? 'text-red-500' : ''}
+                ${(truck.status && !truck.depature) ? 'text-yellow-500' : ''}
               `}>
-                {!truck.cleared && 'waiting'}
-                {(truck.cleared && !truck.depature) && 'offloaded'}
-                {(truck.cleared && truck.depature) && truck.depature.date}
+                {!truck.status && 'waiting'}
+                {(truck.status && !truck.depature) && 'offloaded'}
+                {(truck.status && truck.depature) && truck.depature.date}
               </td>
               <td className={`
                 p-2
-                ${!truck.cleared ? 'text-red-500' : ''}
-                ${(truck.cleared && !truck.depature) ? 'text-yellow-500' : ''}
+                ${!truck.status ? 'text-red-500' : ''}
+                ${(truck.status && !truck.depature) ? 'text-yellow-500' : ''}
               `}>
-                {!truck.cleared && 'waiting'}
-                {(truck.cleared && !truck.depature) && 'offloaded'}
-                {(truck.cleared && truck.depature) && truck.depature.time}
+                {!truck.status && 'waiting'}
+                {(truck.status && !truck.depature) && 'offloaded'}
+                {(truck.status && truck.depature) && truck.depature.time}
               </td>
               <td className={`
                 p-2
-                ${!truck.cleared ? 'text-red-500' : ''}
-                ${(truck.cleared && !truck.depature) ? 'text-yellow-500' : ''}
+                ${!truck.status ? 'text-red-500' : ''}
+                ${(truck.status && !truck.depature) ? 'text-yellow-500' : ''}
               `}>
-                {!truck.cleared && 'waiting'}
-                {(truck.cleared && !truck.depature) && 'offloaded'}
-                {(truck.cleared && truck.depature) && duration+' Days'}
+                {!truck.status && 'waiting'}
+                {(truck.status && !truck.depature) && 'offloaded'}
+                {(truck.status && truck.depature) && duration+' Days'}
               </td>
               <td className='p-2 flex text-white'>
                 {profile.org === 'VSS' && 
@@ -149,7 +149,7 @@ function TruckTableData({data, profile, message}) {
                     {!truck.cleared && <button className='rounded px-2 py-1 bg-yellow-400 cursor-not-allowed'>Not Cleared</button>}
                     {(truck.cleared && !truck.depature) && 
                       <button className='rounded px-2 py-1 bg-green-400' onClick={() => checkOut(truck._id)}>
-                        {checkOutloading ? "Loading..." : "Cleared"}
+                        Cleared
                       </button>}
                     {(truck.cleared && truck.depature) && 
                       <button className='rounded cursor-not-allowed px-2 py-1 bg-red-400'>
@@ -162,9 +162,8 @@ function TruckTableData({data, profile, message}) {
                   <div>
                     {!truck.cleared && 
                       <button className='rounded px-2 py-1 bg-yellow-400' onClick={() => clearForDispatchFn(truck._id)}>
-                        {clearOutloading ? 'Loading...' : 'Releas'}
-                      </button>
-                    }
+                        Releas
+                    </button>}
                     {(truck.cleared && !truck.depature) && <button className='rounded px-2 py-1 bg-green-400 cursor-not-allowed'>Cleared</button>}
                     {(truck.cleared && truck.depature) && 
                       <button className='rounded cursor-not-allowed px-2 py-1 bg-red-400'>

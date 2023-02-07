@@ -1,5 +1,7 @@
 import { useState, useContext, createContext, useEffect } from 'react'
 import axiosInstance from '../hooks/axiosInstance'
+import recidJson from '../assets/records.json'
+
 
 const recordsApi = createContext()
 
@@ -14,7 +16,7 @@ export default function RecordsContextProvider({children}) {
   const [checkOutloading, setCheckOutloading] = useState(false)
   const [clearOutloading, setClearOutloading] = useState(false)
   const [error, setError] = useState('')
-  const [data, setData] = useState([])
+  const [data, setData] = useState(recidJson)
 
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function RecordsContextProvider({children}) {
   const checkOut = async id => {
     setCheckOutloading(true)
     try {
-      const response = await axiosInstance.post('/records/checkout', {id, name:profile.name}).then(res => res);
+      const response = await axiosInstance.post('/records/checkout', {id, name:profile.name, org:profile.org}).then(res => res);
       setData(response.data)
     } catch (error) {
       setCheckOutloading(false)
@@ -61,7 +63,7 @@ export default function RecordsContextProvider({children}) {
   const clearForDispatchFn = async id => {
     setClearOutloading(true)
     try {
-      const response = await axiosInstance.post('/records/clear-out', {id, name:profile.name}).then(res => res);
+      const response = await axiosInstance.post('/records/clear-out', {id, name:profile.name, org:profile.org}).then(res => res);
       setData(response.data)
     } catch (error) {
       setClearOutloading(false)

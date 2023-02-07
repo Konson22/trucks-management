@@ -21,6 +21,12 @@
 
 .login-container{
     background-image: url('./assets/images/hamburg-6849995_960_720.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.missing{
+    background-image: url('./assets/images/404.png');
     background-size: 100% 100%;
 }
 

@@ -5,6 +5,7 @@ import { useState } from "react"
 import { clients } from "../../assets/data"
 import { useNavigate } from "react-router-dom"
 import axiosInstance from "../../hooks/axiosInstance"
+import { FormLoader } from "../../components/Loaders"
 
 
 
@@ -23,10 +24,9 @@ export default function Login() {
     const handleSubmit = async values => {
         setLoading(true)
         try{
-            // const response = await axios.post('https://rose-drab-seahorse.cyclic.app/auth/login', values, {
             const response = await axiosInstance.post('/auth/login', values).then(res => res)
             localStorage.setItem('wlc-user-auth', JSON.stringify(response.data))
-            navigate('/')
+            navigate('/', {replace:true})
         } catch(error){
             if(error.response){
                 setMessage(error.response?.data)
@@ -37,37 +37,38 @@ export default function Login() {
     }
 
   return (
-    <div className='h-[100vh] flex items-center justify-center'>
+    <div className='login-container h-[100vh] flex items-center justify-center'>
         <Formik
-            initialValues={{  name:'', password:'' }}
+            initialValues={{ name:'', password:'' }}
             validationSchema={validate}
             onSubmit={values => handleSubmit(values)}
         >
-            <div className='w-[35%] bg-gray-200 p-12 rounded'>
-                <h1 className="text-2xl mb-5">Login</h1>
-                {loading && 'Loading...'}
-                {message && 
-                <div className="px-4 py-1 bg-red-200 mb-6">{message}</div>
-                }
+            <div className='md:w-[30%] bg-opacity-60 bg-white shadow-sm py-10 px-10 rounded relative'>
+                {loading && <FormLoader />}
+                <h1 className="text-3xl text-center text-white mb-5">Login</h1>
+                { message && <div className='px-4 py-2 my-4'>{message}</div> }
                 <Form>
                     {fields.map(field => 
                         <InputField 
                             name={field.name} 
-                            kn={field.name} 
                             type={field.type} 
-                            label=''
+                            label={field.label} 
                             placeholder={field.placeholder} 
-                            options={field.options}  
+                            options={field.options}
+                            cName='mb-4'
                         />
                     )}
-                    <div className="mt-3">
-                        <button className='px-4 py-2 bg-green-600 rounded' type='submit'>Login</button>
-                    </div>
+                    <button 
+                        className='w-full mt-4 flex items-center justify-center px-4 py-2 bg-green-600 rounded' 
+                        type='submit'
+                    >
+                        Login
+                    </button>
                 </Form>
             </div>
         </Formik>
     </div>
-  )
+  ) 
 }
 
 
@@ -76,8 +77,8 @@ const fields = [
         name:'name', 
         type:'select',
         placeholder:'example@gmail.com', 
-        label:'E-mail',
-        options:[...clients, 'VSS', 'WLC']
+        label:'Organization',
+        options:[...clients, 'VSS']
     },
     {name:'password', type:'password', placeholder:'Enter password', label:'Password'}
 ]

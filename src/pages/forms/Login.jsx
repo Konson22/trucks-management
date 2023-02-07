@@ -43,9 +43,9 @@ export default function Login() {
             validationSchema={validate}
             onSubmit={values => handleSubmit(values)}
         >
-            <div className='md:w-[30%] bg-opacity-60 bg-white shadow-sm py-10 px-10 rounded relative'>
+            <div className='md:w-[30%] w-[90%] bg-opacity-60 bg-white shadow-sm py-10 px-10 rounded relative'>
                 {loading && <FormLoader />}
-                <h1 className="text-3xl text-center text-white mb-5">Login</h1>
+                <h1 className="text-3xl text-center text-whiteds mb-5">Login</h1>
                 { message && <div className='px-4 py-2 my-4'>{message}</div> }
                 <Form>
                     {fields.map(field => 
