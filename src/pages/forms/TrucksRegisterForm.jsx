@@ -5,19 +5,19 @@ import * as Yup from 'yup'
 import { useState } from "react"
 import { FaSave, FaTimes } from "react-icons/fa"
 import { clients } from "../../assets/data"
-import { useSocket } from "../../contexts/SocketProvider"
-// import { useRecordsContext } from "../../contexts/RecordsContextProvider"
-// import axiosInstance from "../../hooks/axiosInstance"
+// import { useSocket } from "../../contexts/SocketProvider"
+import { useRecordsContext } from "../../contexts/RecordsContextProvider"
+import axiosInstance from "../../hooks/axiosInstance"
 
 export default function TrucksRegisterForm() {
 
-    // const profile = JSON.parse(localStorage.getItem('wlc-user-auth'))
+    const profile = JSON.parse(localStorage.getItem('wlc-user-auth'))
 
-    const socket = useSocket()
+    // const socket = useSocket()
     const { setShowForm } = useGlobalContext()
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState(null)
-    // const { setData } = useRecordsContext()
+    const { setData } = useRecordsContext()
 
     const validate = Yup.object({
         plate_no:Yup.string().required('Truck No Required'),
@@ -28,32 +28,32 @@ export default function TrucksRegisterForm() {
         contact:Yup.string().required('contact Required'),
     })
 
-    const handleSubmit = async values => {
-        setLoading(true)
-        if(!socket) return
-        try{
-            socket.emit('upload', values)
-        } catch(error){
-            setMessage('Error occured')
-        }finally{
-            setLoading(false)
-        }
-    }
-
     // const handleSubmit = async values => {
     //     setLoading(true)
+    //     if(!socket) return
     //     try{
-    //         const response = await axiosInstance.post('/records/add', {data:values, name:profile.name}).then(res => res)
-    //         if(response.status === 201){
-    //             setData(prev => [...prev, response.data])
-    //             setShowForm(null)
-    //         }
+    //         socket.emit('upload', values)
     //     } catch(error){
     //         setMessage('Error occured')
     //     }finally{
     //         setLoading(false)
     //     }
     // }
+
+    const handleSubmit = async values => {
+        setLoading(true)
+        try{
+            const response = await axiosInstance.post('/records/add', {data:values, org:profile.name}).then(res => res)
+            if(response.status === 201){
+                setData(prev => [...prev, response.data])
+                setShowForm(null)
+            }
+        } catch(error){
+            setMessage('Error occured')
+        }finally{
+            setLoading(false)
+        }
+    }
 
   return (
     <div className="bg-gray-200 p-10 rounded shadow-xl relative w-[60%]">
