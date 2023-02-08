@@ -24,7 +24,7 @@ export default function Login() {
     const handleSubmit = async values => {
         setLoading(true)
         try{
-            const response = await axiosInstance.post('/auth/login', values).then(res => res)
+            const response = await axiosInstance.post('http://localhost:4000/auth/login', values).then(res => res)
             localStorage.setItem('wlc-user-auth', JSON.stringify(response.data))
             navigate('/', {replace:true})
         } catch(error){
