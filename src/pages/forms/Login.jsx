@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { useState } from "react"
 import { clients } from "../../assets/data"
 import { useNavigate } from "react-router-dom"
-import axiosInstance from "../../hooks/axiosInstance"
+// import axiosInstance from "../../hooks/axiosInstance"
 import { FormLoader } from "../../components/Loaders"
 
 
@@ -22,10 +22,13 @@ export default function Login() {
     })
 
     const handleSubmit = async values => {
-        setLoading(true)
         try{
-            const response = await axiosInstance.post('/auth/login', values).then(res => res)
-            localStorage.setItem('wlc-user-auth', JSON.stringify(response.data))
+            setLoading(true)
+            // const response = await axiosInstance.post('/auth/login', values).then(res => res)
+            localStorage.setItem('wlc-user-auth', JSON.stringify({
+                name:values.name,
+                org:values.name,
+            }))
             navigate('/', {replace:true})
         } catch(error){
             if(error.response){

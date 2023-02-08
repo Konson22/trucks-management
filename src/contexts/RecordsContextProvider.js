@@ -1,6 +1,6 @@
 import { useState, useContext, createContext, useEffect } from 'react'
 import axiosInstance from '../hooks/axiosInstance'
-// import recidJson from '../assets/records.json'
+import recidJson from '../assets/records.json'
 // import { useSocket } from './SocketProvider'
 
 
@@ -19,7 +19,7 @@ export default function RecordsContextProvider({children}) {
   const [checkOutloading, setCheckOutloading] = useState(false)
   const [clearOutloading, setClearOutloading] = useState(false)
   const [notifications, setNotifications] = useState([])
-  const [data, setData] = useState([])
+  const [data, setData] = useState(recidJson)
 
 
 useEffect(() => {
